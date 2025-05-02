@@ -6,6 +6,41 @@ servers:
   - url: http://127.0.0.1:9292
     description: Development server
 paths:
+  /login:
+    post:
+      summary: authenticates users
+      requestBody:
+        description: user to authenticate
+        content:
+          application/json:
+            example:
+              username: 'amacagno'
+              password: '1111'
+        required: true
+      responses:
+        '200':
+          description: 'a product id'
+          content:
+            application/json:
+              example:
+                token: 'eyJhbGciOiJIUzI1NiJ9...'
+                expiration: '03-05-2025 14:53'
+        '400':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Bad Request: invalid body.'
+        '401':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Unauthorized'
   /products:
     get:
       summary: finds products
@@ -32,6 +67,8 @@ paths:
                     name: 'MacBook Pro'
                   - id: 3
                     name: 'Mac Studio'
+      security:
+        - api_key: []
     post:
       summary: creates products
       requestBody:
@@ -55,7 +92,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                message: 'Param name cannot be empty'
+                message: 'Bad Request: invalid body.'
+      security:
+        - api_key: []
 components:
   schemas:
     Product:
@@ -70,3 +109,8 @@ components:
       properties:
         message:
           type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: Authorization
+      in: header
