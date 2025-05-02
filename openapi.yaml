@@ -1,0 +1,72 @@
+openapi: 3.1.1
+info:
+  title: RackApp API
+  version: 0.1.0
+servers:
+  - url: http://127.0.0.1:9292
+    description: Development server
+paths:
+  /products:
+    get:
+      summary: finds products
+      parameters:
+        - name: name
+          in: query
+          description: name of the product to find
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: an array of products to be returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+                example:
+                  - id: 1
+                    name: 'MacBook Air'
+                  - id: 2
+                    name: 'MacBook Pro'
+                  - id: 3
+                    name: 'Mac Studio'
+    post:
+      summary: creates products
+      requestBody:
+        description: product to create
+        content:
+          application/json:
+            example:
+              name: 'MacBook Pro'
+        required: true
+      responses:
+        '202':
+          description: 'a product id'
+          content:
+            application/json:
+              example:
+                id: 1
+        '400':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Param name cannot be empty'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

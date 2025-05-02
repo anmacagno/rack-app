@@ -6,6 +6,15 @@ app = Rack::Builder.app do
     metastore: "file:cache/rack/meta",
     entitystore: "file:cache/rack/body",
     verbose: true
+  use Rack::Static,
+    urls: [
+      "/AUTHORS",
+      "/openapi.yaml"
+    ],
+    header_rules: [
+      ["AUTHORS", { "cache-control" => "max-age=86400" }],
+      ["openapi.yaml", { "cache-control" => "no-store" }]
+    ]
   run RackApp.new
 end
 
