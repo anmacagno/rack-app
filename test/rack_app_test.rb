@@ -20,6 +20,6 @@ class RackAppTest < Test::Unit::TestCase
     get "/users"
 
     assert last_response.not_found?
-    assert_equal "404 Not Found\n", last_response.body
+    assert_equal "Not Found\n", last_response.body
   end
 end
