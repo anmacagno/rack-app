@@ -1,7 +1,7 @@
 require "jwt"
 
 class JsonWebToken
-  SECRET_KEY = "my$ecretK3y"
+  SECRET_KEY = "my$ecretK3y".freeze
 
   def self.encode(payload, expiration)
     JWT.encode(payload.merge(exp: expiration.to_i), SECRET_KEY)

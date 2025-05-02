@@ -1,6 +1,6 @@
 require "test/unit"
 require "rack/test"
-require_relative "../app/rack_app.rb"
+require_relative "../app/rack_app"
 
 class RackAppTest < Test::Unit::TestCase
   include Rack::Test::Methods

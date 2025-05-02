@@ -14,7 +14,7 @@ class ProductsController < BaseController
   rescue ProductError => e
     response.status = 400
     response.write(error_json("Bad Request: #{e.message}."))
-  rescue JSON::ParserError => e
+  rescue JSON::ParserError
     response.status = 400
     response.write(error_json("Bad Request: invalid body."))
   end

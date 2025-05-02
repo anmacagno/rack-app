@@ -24,6 +24,6 @@ class BaseController
   end
 
   def error_json(message)
-    { message: message }.to_json
+    { message: }.to_json
   end
 end

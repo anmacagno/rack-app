@@ -19,7 +19,7 @@ class Product
     raise(ProductError, "param name cannot be empty") if params["name"].strip.empty?
 
     instance.all.push({ name: params["name"] })
-    all.last
+    all.last # product
   end
 end
 

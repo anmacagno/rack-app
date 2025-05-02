@@ -6,7 +6,7 @@ class AuthenticationController < BaseController
     user = authenticate_user
     if user
       payload = { user_id: user["id"] }
-      expiration = Time.now.utc + 86400 # 24 hours from now
+      expiration = Time.now.utc + 86_400 # 24 hours from now
       token = JsonWebToken.encode(payload, expiration)
 
       response.status = 200
@@ -15,7 +15,7 @@ class AuthenticationController < BaseController
       response.status = 401
       response.write(error_json("Unauthorized"))
     end
-  rescue JSON::ParserError => e
+  rescue JSON::ParserError
     response.status = 400
     response.write(error_json("Bad Request: invalid body."))
   end
