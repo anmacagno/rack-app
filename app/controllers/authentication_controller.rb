@@ -3,14 +3,14 @@ require "json"
 class AuthenticationController < BaseController
   # POST /login
   def login
-    user = authenticate_user
+    user = find_user
     if user
-      payload = { user_id: user["id"] }
+      payload = { user_id: user.id }
       expiration = Time.now.utc + 86_400 # 24 hours from now
       token = JsonWebToken.encode(payload, expiration)
 
       response.status = 200
-      response.write({ token:, expiration: expiration.strftime('%d-%m-%Y %H:%M') })
+      response.write({ token:, expiration: expiration.strftime('%d-%m-%Y %H:%M') }.to_json)
     else
       response.status = 401
       response.write(error_json("Unauthorized"))
@@ -22,9 +22,9 @@ class AuthenticationController < BaseController
 
   private
 
-  def authenticate_user
+  def find_user
     params = JSON.parse(request.body.read)
-    User.authenticate(params)
+    User.find(params)
   end
 
   def set_headers

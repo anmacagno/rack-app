@@ -22,7 +22,7 @@ class ProductsController < BaseController
   private
 
   def find_products
-    Product.all
+    Product.all.map { |product| product.to_hash }
   end
 
   def create_product
