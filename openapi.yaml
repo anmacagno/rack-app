@@ -40,7 +40,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                message: 'Unauthorized'
+                message: 'Unauthorized: invalid username or password.'
   /products:
     get:
       summary: finds products
@@ -67,6 +67,14 @@ paths:
                     name: 'MacBook Pro'
                   - id: 3
                     name: 'Mac Studio'
+        '401':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Unauthorized: Signature verification failed.'
       security:
         - api_key: []
     post:
@@ -93,6 +101,14 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 message: 'Bad Request: invalid body.'
+        '401':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Unauthorized: Signature verification failed.'
       security:
         - api_key: []
 components:

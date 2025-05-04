@@ -3,12 +3,16 @@ require "json"
 class ProductsController < BaseController
   # GET /products
   def index
+    return unless authenticate_request
+
     response.status = 200
     response.write(find_products.to_json)
   end
 
   # POST /products
   def create
+    return unless authenticate_request
+
     response.status = 202 # Accepted
     response.write(create_product.to_json)
   rescue ProductError => e

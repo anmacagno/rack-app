@@ -7,7 +7,11 @@ class User
     @password = password
   end
 
-  def self.find(params)
+  def self.find(id)
+    Storage.instance.users.find { |user| user.id == id }
+  end
+
+  def self.find_by(params)
     Storage.instance.users.find { |user| user.username == params["username"] && user.password == params["password"] }
   end
 end

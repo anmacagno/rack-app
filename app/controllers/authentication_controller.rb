@@ -5,15 +5,11 @@ class AuthenticationController < BaseController
   def login
     user = find_user
     if user
-      payload = { user_id: user.id }
-      expiration = Time.now.utc + 86_400 # 24 hours from now
-      token = JsonWebToken.encode(payload, expiration)
-
       response.status = 200
-      response.write({ token:, expiration: expiration.strftime('%d-%m-%Y %H:%M') }.to_json)
+      response.write(authorize(user).to_json)
     else
       response.status = 401
-      response.write(error_json("Unauthorized"))
+      response.write(error_json("Unauthorized: invalid username or password."))
     end
   rescue JSON::ParserError
     response.status = 400
@@ -24,7 +20,7 @@ class AuthenticationController < BaseController
 
   def find_user
     params = JSON.parse(request.body.read)
-    User.find(params)
+    User.find_by(params)
   end
 
   def set_headers
