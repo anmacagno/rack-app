@@ -27,7 +27,8 @@ class ProductsController < BaseController
   private
 
   def find_products
-    Product.all.map(&:to_hash)
+    params = Rack::Utils.parse_nested_query(request.query_string)
+    params.has_key?("name") ? Product.find_by(params) : Product.all.map(&:to_hash)
   end
 
   def create_product
