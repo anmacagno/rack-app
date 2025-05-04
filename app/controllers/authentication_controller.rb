@@ -11,9 +11,9 @@ class AuthenticationController < BaseController
       response.status = 401
       response.write(error_json("Unauthorized: invalid username or password."))
     end
-  rescue JSON::ParserError
+  rescue JSON::ParserError => e
     response.status = 400
-    response.write(error_json("Bad Request: invalid body."))
+    response.write(error_json("Bad Request: #{e.message}."))
   end
 
   private

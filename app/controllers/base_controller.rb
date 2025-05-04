@@ -34,14 +34,13 @@ class BaseController
     { token:, expiration: expiration.strftime('%d-%m-%Y %H:%M') }
   end
 
-  def authenticate_request
+  def authenticate!
     token = request.get_header("HTTP_AUTHORIZATION")
     decoded_token = JsonWebToken.decode(token)
     User.find(decoded_token["user_id"])
-    true
   rescue JWT::DecodeError => e
-    response.status = 401
-    response.write(error_json("Unauthorized: #{e.message}."))
-    false
+    raise(AuthenticationError, e.message)
   end
 end
+
+class AuthenticationError < StandardError; end

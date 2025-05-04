@@ -3,24 +3,25 @@ require "json"
 class ProductsController < BaseController
   # GET /products
   def index
-    return unless authenticate_request
-
+    authenticate!
     response.status = 200
     response.write(find_products.to_json)
+  rescue AuthenticationError => e
+    response.status = 401
+    response.write(error_json("Unauthorized: #{e.message}."))
   end
 
   # POST /products
   def create
-    return unless authenticate_request
-
+    authenticate!
     response.status = 202 # Accepted
     response.write(create_product.to_json)
-  rescue ProductError => e
+  rescue JSON::ParserError, ProductError => e
     response.status = 400
     response.write(error_json("Bad Request: #{e.message}."))
-  rescue JSON::ParserError
-    response.status = 400
-    response.write(error_json("Bad Request: invalid body."))
+  rescue AuthenticationError => e
+    response.status = 401
+    response.write(error_json("Unauthorized: #{e.message}."))
   end
 
   private
