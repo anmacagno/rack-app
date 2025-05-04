@@ -24,7 +24,7 @@ class Product
     { id: id, name: name }
   end
 
-  def to_json
+  def to_json(*_args)
     to_hash.to_json
   end
 end

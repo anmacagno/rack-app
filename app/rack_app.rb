@@ -1,9 +1,9 @@
 require_relative "controllers/base_controller"
 require_relative "controllers/authentication_controller"
 require_relative "controllers/products_controller"
-require_relative "models/user.rb"
-require_relative "models/product.rb"
-require_relative "models/storage.rb"
+require_relative "models/user"
+require_relative "models/product"
+require_relative "models/storage"
 require_relative "utils/json_web_token"
 
 class RackApp
