@@ -19,7 +19,7 @@ paths:
         required: true
       responses:
         '200':
-          description: 'a product id'
+          description: 'token needed for private endpoints'
           content:
             application/json:
               example:
@@ -74,11 +74,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                message: 'Unauthorized: Signature verification failed.'
+                message: 'Unauthorized: signature verification failed.'
       security:
         - api_key: []
     post:
-      summary: creates products
+      summary: creates products asynchronously
       requestBody:
         description: product to create
         content:
@@ -88,11 +88,11 @@ paths:
         required: true
       responses:
         '202':
-          description: 'a product id'
+          description: 'a product name'
           content:
             application/json:
               example:
-                id: 1
+                name: 'MacBook Pro'
         '400':
           description: 'an error message'
           content:
@@ -108,7 +108,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                message: 'Unauthorized: Signature verification failed.'
+                message: 'Unauthorized: signature verification failed.'
       security:
         - api_key: []
 components:

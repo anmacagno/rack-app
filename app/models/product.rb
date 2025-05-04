@@ -19,9 +19,13 @@ class Product
     raise(ProductError, "param name must be a string") unless params["name"].is_a?(String)
     raise(ProductError, "param name cannot be empty") if params["name"].strip.empty?
 
-    product = new(id: all.size + 1, name: params["name"])
-    all.push(product)
-    product
+    Thread.new {
+      sleep(5) # 5 seconds
+      product = new(id: all.size + 1, name: params["name"])
+      all.push(product)
+    }
+
+    { name: params["name"] }
   end
 
   def to_hash
