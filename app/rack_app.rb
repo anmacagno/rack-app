@@ -21,7 +21,10 @@ class RackApp
     when ["POST", "/products"]
       ProductsController.new(request, response).create
     else
-      if request.path_info.match?(/\/products\/[0-9]+/)
+      if request.request_method == "OPTIONS"
+        response.set_header("Access-Control-Allow-Origin", "*")
+        response.set_header("Access-Control-Allow-Headers", "*")
+      elsif request.path_info.match?(/\/products\/[0-9]+/)
         ProductsController.new(request, response).show
       else
         BaseController.new(request, response).not_found
