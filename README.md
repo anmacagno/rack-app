@@ -6,9 +6,10 @@ The API consists of the following endpoints:
 - POST /login
 - GET /products
 - POST /products
+- GET /products/{id}
 
 For the implementation I used Ruby with Rack and the following middleware:
-- Rack::Cache to enable HTTP caching.
+- Rack::Cache to enable caching.
 - Rack::Deflater for compressing responses with gzip.
 - Rack::Static for serving static files.
 
@@ -90,6 +91,13 @@ curl --location 'http://localhost:9292/products' \
 --data '{
     "name": "MacBook"
 }'
+```
+
+4. GET /products/{id}
+
+```bash
+curl --location 'http://localhost:9292/products/1' \
+--header 'Authorization: REPLACE_WITH_YOUR_TOKEN'
 ```
 
 ### Docs

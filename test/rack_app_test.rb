@@ -45,6 +45,13 @@ class RackAppTest < Test::Unit::TestCase
     assert last_response.accepted?
   end
 
+  def test_get_product
+    header "Authorization", token
+    get "/products/1"
+
+    assert last_response.not_found?
+  end
+
   private
 
   def token

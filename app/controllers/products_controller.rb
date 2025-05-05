@@ -11,6 +11,22 @@ class ProductsController < BaseController
     response.write(error_json("Unauthorized: #{e.message}."))
   end
 
+  # GET /products/{id}
+  def show
+    authenticate!
+    product = find_product
+    if product
+      response.status = 200
+      response.write(find_product.to_json)
+    else
+      response.status = 404
+      response.write(error_json("Not Found: invalid id."))
+    end
+  rescue AuthenticationError => e
+    response.status = 401
+    response.write(error_json("Unauthorized: #{e.message}."))
+  end
+
   # POST /products
   def create
     authenticate!
@@ -25,6 +41,11 @@ class ProductsController < BaseController
   end
 
   private
+
+  def find_product
+    id = request.path_info.split("/").last.to_i
+    Product.find(id)
+  end
 
   def find_products
     params = Rack::Utils.parse_nested_query(request.query_string)

@@ -3,7 +3,7 @@ info:
   title: RackApp API
   version: 0.1.0
 servers:
-  - url: http://127.0.0.1:9292
+  - url: http://localhost:9292
     description: Development server
 paths:
   /login:
@@ -88,11 +88,11 @@ paths:
         required: true
       responses:
         '202':
-          description: 'a product name'
+          description: 'a product id (use to find the product)'
           content:
             application/json:
               example:
-                name: 'MacBook Pro'
+                id: 1
         '400':
           description: 'an error message'
           content:
@@ -109,6 +109,44 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 message: 'Unauthorized: signature verification failed.'
+      security:
+        - api_key: []
+  /products/{id}:
+    get:
+      summary: find product
+      parameters:
+        - name: id
+          in: path
+          description: id of the product to find
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: a product to be returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                id: 1
+                name: 'MacBook Pro'
+        '401':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Unauthorized: signature verification failed.'
+        '404':
+          description: 'an error message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                message: 'Not Found: invalid id.'
       security:
         - api_key: []
 components:

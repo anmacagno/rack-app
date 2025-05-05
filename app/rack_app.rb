@@ -21,7 +21,11 @@ class RackApp
     when ["POST", "/products"]
       ProductsController.new(request, response).create
     else
-      BaseController.new(request, response).not_found
+      if request.path_info.match?(/\/products\/[0-9]+/)
+        ProductsController.new(request, response).show
+      else
+        BaseController.new(request, response).not_found
+      end
     end
 
     response.finish

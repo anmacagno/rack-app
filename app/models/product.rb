@@ -10,6 +10,10 @@ class Product
     Storage.instance.products
   end
 
+  def self.find(id)
+    Storage.instance.products.find { |user| user.id == id }
+  end
+
   def self.find_by(params)
     Storage.instance.products.select { |product| product.name == params["name"] }
   end
@@ -19,13 +23,14 @@ class Product
     raise(ProductError, "param name must be a string") unless params["name"].is_a?(String)
     raise(ProductError, "param name cannot be empty") if params["name"].strip.empty?
 
+    product_id = Storage.instance.product_id
     Thread.new {
       sleep(5) # 5 seconds
-      product = new(id: all.size + 1, name: params["name"])
+      product = new(id: product_id, name: params["name"])
       all.push(product)
     }
 
-    { name: params["name"] }
+    { id: product_id }
   end
 
   def to_hash
