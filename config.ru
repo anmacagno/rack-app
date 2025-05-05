@@ -6,6 +6,7 @@ app = Rack::Builder.app do
       metastore: "file:cache/rack/meta",
       entitystore: "file:cache/rack/body",
       verbose: true
+  use Rack::Deflater
   use Rack::Static,
       urls: [
         "/AUTHORS",

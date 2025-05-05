@@ -37,7 +37,8 @@ class BaseController
   def authenticate!
     token = request.get_header("HTTP_AUTHORIZATION")
     decoded_token = JsonWebToken.decode(token)
-    User.find(decoded_token["user_id"])
+    user = User.find(decoded_token["user_id"])
+    raise(AuthenticationError, "invalid user") unless user
   rescue JWT::DecodeError => e
     raise(AuthenticationError, e.message)
   end
