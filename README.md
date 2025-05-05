@@ -1,11 +1,16 @@
 # RackApp
 
-The objective of this project is the implementation of some endpoints to manage products. With this development I want to show some of my skills as a software engineer. For the implementation I used Ruby (without Rails).
+The objective of this project is the implementation of some endpoints to manage products. With this development I want to show some of my skills as a software engineer.
 
 The API consists of the following endpoints:
 - POST /login
 - GET /products
 - POST /products
+
+For the implementation I used Ruby with Rack and the following middleware:
+- Rack::Cache to enable HTTP caching.
+- Rack::Deflater for compressing responses with gzip.
+- Rack::Static for serving static files.
 
 ### Prerequisites
 

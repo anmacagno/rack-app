@@ -22,4 +22,33 @@ class RackAppTest < Test::Unit::TestCase
     assert last_response.not_found?
     assert_equal "Not Found\n", last_response.body
   end
+
+  def test_post_login
+    post("/login", JSON.generate("username" => "amacagno", "password" => "1111"))
+
+    assert last_response.ok?
+    assert JSON.parse(last_response.body).has_key?("token")
+  end
+
+  def test_get_products
+    header "Authorization", token
+    get "/products"
+
+    assert last_response.ok?
+    assert_equal [], JSON.parse(last_response.body)
+  end
+
+  def test_post_products
+    header "Authorization", token
+    post("/products", JSON.generate("name" => "MacBook Pro"))
+
+    assert last_response.accepted?
+  end
+
+  private
+
+  def token
+    post("/login", JSON.generate("username" => "amacagno", "password" => "1111"))
+    JSON.parse(last_response.body)["token"]
+  end
 end
