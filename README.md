@@ -48,8 +48,6 @@ If you are testing in the local environment the base url for the endpoints is ht
 
 I created the following users for testing (username:password):
 - amacagno:1111
-- jcuello:2222
-- lbierwerth:3333
 
 ### Example requests
 
