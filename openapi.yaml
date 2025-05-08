@@ -112,15 +112,15 @@ paths:
       security:
         - api_key: []
   /products/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: id of the product to find
+        required: true
+        schema:
+          type: integer
     get:
       summary: find product
-      parameters:
-        - name: id
-          in: path
-          description: id of the product to find
-          required: true
-          schema:
-            type: integer
       responses:
         '200':
           description: a product to be returned

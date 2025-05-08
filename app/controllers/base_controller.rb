@@ -31,7 +31,7 @@ class BaseController
     payload = { user_id: user.id }
     expiration = Time.now.utc + 86_400 # 24 hours from now
     token = JsonWebToken.encode(payload, expiration)
-    { token:, expiration: expiration.strftime('%d-%m-%Y %H:%M') }
+    { token:, expiration: expiration.strftime("%d-%m-%Y %H:%M") }
   end
 
   def authenticate!

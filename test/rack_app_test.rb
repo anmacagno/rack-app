@@ -9,6 +9,12 @@ class RackAppTest < Test::Unit::TestCase
     RackApp.new
   end
 
+  def self.startup
+    Storage.instance.products.push(
+      Product.new(id: Storage.instance.product_id, name: "MacBook Pro")
+    )
+  end
+
   def test_root
     get "/"
 
@@ -27,7 +33,7 @@ class RackAppTest < Test::Unit::TestCase
     post("/login", JSON.generate("username" => "amacagno", "password" => "1111"))
 
     assert last_response.ok?
-    assert JSON.parse(last_response.body).has_key?("token")
+    assert JSON.parse(last_response.body).key?("token")
   end
 
   def test_get_products
@@ -35,7 +41,7 @@ class RackAppTest < Test::Unit::TestCase
     get "/products"
 
     assert last_response.ok?
-    assert_equal [], JSON.parse(last_response.body)
+    assert_equal 1, JSON.parse(last_response.body).size
   end
 
   def test_post_products
@@ -49,7 +55,7 @@ class RackAppTest < Test::Unit::TestCase
     header "Authorization", token
     get "/products/1"
 
-    assert last_response.not_found?
+    assert last_response.ok?
   end
 
   private

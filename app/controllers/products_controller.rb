@@ -17,7 +17,7 @@ class ProductsController < BaseController
     product = find_product
     if product
       response.status = 200
-      response.write(find_product.to_json)
+      response.write(product.to_json)
     else
       response.status = 404
       response.write(error_json("Not Found: invalid id."))
@@ -49,7 +49,7 @@ class ProductsController < BaseController
 
   def find_products
     params = Rack::Utils.parse_nested_query(request.query_string)
-    params.has_key?("name") ? Product.find_by(params) : Product.all.map(&:to_hash)
+    params.key?("name") ? Product.where(params) : Product.all.map(&:to_hash)
   end
 
   def create_product

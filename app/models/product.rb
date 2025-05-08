@@ -14,7 +14,7 @@ class Product
     Storage.instance.products.find { |user| user.id == id }
   end
 
-  def self.find_by(params)
+  def self.where(params)
     Storage.instance.products.select { |product| product.name == params["name"] }
   end
 
@@ -24,11 +24,11 @@ class Product
     raise(ProductError, "param name cannot be empty") if params["name"].strip.empty?
 
     product_id = Storage.instance.product_id
-    Thread.new {
+    Thread.new do
       sleep(5) # 5 seconds
       product = new(id: product_id, name: params["name"])
-      all.push(product)
-    }
+      Storage.instance.products.push(product)
+    end
 
     { id: product_id }
   end
